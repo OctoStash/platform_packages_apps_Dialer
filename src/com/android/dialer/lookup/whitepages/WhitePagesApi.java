@@ -71,18 +71,15 @@ public class WhitePagesApi {
         mOutput = httpGet(mLookupUrl + mNumber);
     }
 
-    private void extractCookie() throws IOException {
+    private void findUuidAndReload() throws IOException {
         for (String regex : COOKIE_REGEXES) {
             Pattern p = Pattern.compile(regex, Pattern.DOTALL);
             Matcher m = p.matcher(mOutput);
             if (m.find()) {
                 mCookie = m.group(1).trim();
+                fetchPage();
                 break;
             }
-        }
-
-        if (mCookie == null) {
-            throw new IOException("HTML response does not contain cookie value");
         }
     }
 
@@ -289,12 +286,8 @@ public class WhitePagesApi {
 
     public ContactInfo getContactInfo() throws IOException {
         if (mInfo == null) {
-            // We'll fetch the page twice every time since we do not what
-            // restrictions on the cookies are present (IP checks, time limits,
-            // etc.)
             fetchPage();
-            extractCookie();
-            fetchPage();
+            findUuidAndReload();
 
             buildContactInfo();
         }
