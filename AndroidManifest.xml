@@ -44,6 +44,8 @@
     <uses-permission android:name="com.android.voicemail.permission.READ_WRITE_ALL_VOICEMAIL" />
     <uses-permission android:name="android.permission.ALLOW_ANY_CODEC_FOR_PLAYBACK" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.READ_PHONE_BLACKLIST" />
+    <uses-permission android:name="android.permission.CHANGE_PHONE_BLACKLIST" />
     <!-- allow broadcasting secret code intents that reboot the phone -->
     <uses-permission android:name="android.permission.REBOOT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -53,16 +55,6 @@
     <uses-permission android:name="android.permission.STOP_APP_SWITCHES" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="com.qti.permission.DIAG" />
-
-    <!-- Allow the Dialer to access accounts for lookup services -->
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-
-    <!-- Allow the Dialer to access accounts for lookup services -->
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <application
         android:name="DialerApplication"
@@ -84,7 +76,7 @@
             android:launchMode="singleTask"
             android:clearTaskOnLaunch="true"
             android:icon="@mipmap/ic_launcher_phone"
-            android:screenOrientation="portrait"
+            android:screenOrientation="nosensor"
             android:enabled="@*android:bool/config_voice_capable"
             android:windowSoftInputMode="stateAlwaysHidden|adjustNothing">
             <intent-filter>
@@ -150,7 +142,7 @@
         <activity android:name="com.android.dialer.calllog.CallLogActivity"
             android:label="@string/call_log_activity_title"
             android:theme="@style/DialtactsThemeWithActionBarOverlay"
-            android:screenOrientation="portrait"
+            android:screenOrientation="nosensor"
             android:icon="@mipmap/ic_launcher_phone">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -163,13 +155,13 @@
         <activity android:name="com.android.dialer.list.AllContactsActivity"
             android:label="@string/show_all_contacts_title"
             android:theme="@style/DialtactsThemeWithActionBarOverlay"
-            android:screenOrientation="portrait">
+            android:screenOrientation="nosensor">
         </activity>
 
         <activity android:name="com.android.dialer.CallDetailActivity"
                   android:label="@string/callDetailTitle"
                   android:theme="@style/CallDetailActivityTheme"
-                  android:screenOrientation="portrait"
+                  android:screenOrientation="nosensor"
                   android:icon="@mipmap/ic_launcher_phone"
                   android:parentActivityName="com.android.dialer.calllog.CallLogActivity"
             >
@@ -183,7 +175,7 @@
         <activity android:name=".callstats.CallStatsDetailActivity"
             android:label="@string/callStatsDetailTitle"
             android:theme="@style/CallDetailActivityTheme"
-            android:screenOrientation="portrait"
+            android:screenOrientation="nosensor"
             android:icon="@mipmap/ic_launcher_phone" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -360,13 +352,8 @@
             </intent-filter>
         </receiver>
 
-        <provider android:name="com.android.dialer.lookup.DialerProvider"
+        <provider android:name="com.android.dialer.lookup.LookupProvider"
                   android:authorities="com.android.dialer.provider"
-                  android:exported="false"
-                  android:multiprocess="false" />
-
-        <provider android:name="com.android.dialer.lookup.PhoneNumberCacheProvider"
-                  android:authorities="com.android.dialer.cacheprovider"
                   android:exported="false"
                   android:multiprocess="false" />
 
